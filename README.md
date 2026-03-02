@@ -135,24 +135,8 @@ class TavilySearchTool(BaseTool):
 
 **返回：** 搜索结果列表，包含标题、URL、摘要
 
-### 工具调用流程
 
-```
-用户提问
-    │
-    ▼
-Supervisor Agent 分析问题
-    │
-    ├─ 需要企业文档？ ──→ Milvus 搜索工具
-    │
-    ├─ 需要最新信息？ ──→ Tavily 搜索工具
-    │
-    ▼
-Research Agent 综合结果
-    │
-    ▼
-Writer Agent 生成最终回答
-```
+
 
 ---
 
