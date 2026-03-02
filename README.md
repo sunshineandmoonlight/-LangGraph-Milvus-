@@ -37,7 +37,11 @@
 
 ### 整体架构图
 
-```
+[![查看架构图](https://img.shields.io/badge/架构图-draw.io-blue)](https://app.diagrams.net/?lightbox=1&highlight=0000ff&edit=_blank&layers=1&nav=1&title=Enterprise-MultiAgent-System#Ghttps://github.com/sunshineandmoonlight/-LangGraph-Milvus-/raw/main/docs/architecture-diagram.drawio)
+
+**在线查看：** https://app.diagrams.net/?U=https://github.com/sunshineandmoonlight/-LangGraph-Milvus-/raw/main/docs/architecture-diagram.drawio
+
+```text
 ┌─────────────────────────────────────────────────────────────┐
 │                         用户界面 (Vue 3)                      │
 │  ┌─────────────┐  ┌─────────────┐  ┌─────────────────────┐  │
@@ -198,9 +202,11 @@ Writer Agent 生成最终回答
 
 ## 📊 数据流程
 
+> **查看交互式流程图：** https://app.diagrams.net/?U=https://github.com/sunshineandmoonlight/-LangGraph-Milvus-/raw/main/docs/architecture-diagram.drawio
+
 ### RAG 模式数据流
 
-```
+```text
 ┌─────────────┐
 │ 用户提问    │
 └──────┬──────┘
@@ -230,7 +236,7 @@ Writer Agent 生成最终回答
 
 ### Agent 模式数据流
 
-```
+```text
 ┌─────────────┐
 │ 用户提问    │
 └──────┬──────┘
