@@ -1,0 +1,20 @@
+{
+  "mcpServers": {
+    "ssh-manager": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "@iflow-mcp/mcp-ssh-manager"
+      ],
+      "env": {
+        "SSH_SERVER_PRODUCTION_HOST": "106.53.173.173",
+        "SSH_SERVER_PRODUCTION_USER": "ubuntu",
+        "SSH_SERVER_PRODUCTION_PASSWORD": "@C20041109",
+        "SSH_SERVER_PRODUCTION_PORT": "22",
+        "SSH_SERVER_PRODUCTION_DEFAULT_DIR": "/home/ubuntu",
+        "SSH_SERVER_PRODUCTION_DESCRIPTION": "测试服务器"
+      },
+      "trust": true
+    }
+  }
+}

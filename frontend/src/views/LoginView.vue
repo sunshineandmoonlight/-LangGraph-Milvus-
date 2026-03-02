@@ -237,7 +237,7 @@ const handleLogin = async () => {
     formData.append('username', loginForm.email)
     formData.append('password', loginForm.password)
 
-    const response = await axios.post('http://localhost:8000/api/v1/auth/login', formData, {
+    const response = await api.post('/auth/login', formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
       },
@@ -245,7 +245,7 @@ const handleLogin = async () => {
     })
 
     // 保存 token 和用户信息
-    const { access_token, user } = response.data
+    const { access_token, user } = response
     localStorage.setItem('token', access_token)
     localStorage.setItem('user', JSON.stringify(user))
 
@@ -279,7 +279,7 @@ const handleRegister = async () => {
 
     isLoading.value = true
 
-    const response = await axios.post('http://localhost:8000/api/v1/auth/register', {
+    const response = await api.post('/auth/register', {
       email: registerForm.email,
       username: registerForm.username,
       full_name: registerForm.full_name || undefined,
@@ -289,7 +289,7 @@ const handleRegister = async () => {
     })
 
     // 保存 token 和用户信息
-    const { access_token, user } = response.data
+    const { access_token, user } = response
     localStorage.setItem('token', access_token)
     localStorage.setItem('user', JSON.stringify(user))
 
@@ -322,7 +322,7 @@ const handleDemoLogin = async () => {
     const response = await api.post('/auth/demo-login')
 
     // 保存 token 和用户信息 (api 实例的响应拦截器已自动返回 response.data)
-    const { access_token, user } = response
+    const { access_token, user } = response.data
     localStorage.setItem('token', access_token)
     localStorage.setItem('user', JSON.stringify(user))
 

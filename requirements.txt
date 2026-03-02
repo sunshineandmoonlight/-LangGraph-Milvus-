@@ -5,6 +5,7 @@ python-multipart==0.0.6
 
 # Database
 asyncpg==0.29.0
+psycopg2-binary==2.9.9
 sqlmodel==0.0.14
 sqlalchemy==2.0.25
 
@@ -37,13 +38,13 @@ python-multipart>=0.0.6
 
 # Configuration
 python-dotenv==1.0.0
-pydantic==2.5.3
-pydantic-settings==2.1.0
+pydantic>=2.7.0
+pydantic-settings>=2.3.0
+email-validator>=2.0.0
 
 # Utilities
 loguru==0.7.2
 python-dateutil==2.8.2
-pydantic[email]==2.5.3
 python-docx==1.1.0
 docx2txt==0.8
 pypdf==4.0.1

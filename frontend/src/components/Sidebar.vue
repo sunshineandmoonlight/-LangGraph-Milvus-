@@ -24,7 +24,7 @@
         <!-- Upload Area -->
         <el-upload
           drag
-          action="http://localhost:8000/api/v1/knowledge/upload"
+          action="/api/v1/knowledge/upload"
           :on-success="handleUploadSuccess"
           :on-error="handleUploadError"
           :before-upload="beforeUpload"
@@ -78,10 +78,6 @@
           知识库统计
         </h3>
         <div class="space-y-3">
-          <div class="flex justify-between items-center">
-            <span class="text-sm text-gray-500">文档片段</span>
-            <span class="text-sm font-semibold text-gray-800">{{ stats.docCount }}</span>
-          </div>
           <div class="flex justify-between items-center">
             <span class="text-sm text-gray-500">文件数量</span>
             <span class="text-sm font-semibold text-gray-800">{{ stats.uniqueFileCount }}</span>
@@ -265,7 +261,7 @@ const documentsDialogVisible = ref(false)
 const isLoadingDocuments = ref(false)  // 添加加载状态
 
 const settings = reactive({
-  apiUrl: 'http://localhost:8000',
+  apiUrl: window.location.origin + '/api/v1',
   timeout: 120,
   maxTokens: 2000,
   temperature: 0.7
@@ -430,7 +426,7 @@ const deleteDocumentByFilename = async (filename: string) => {
       type: 'warning'
     })
 
-    await axios.delete(`http://localhost:8000/api/v1/knowledge/documents/filename/${encodeURIComponent(filename)}`)
+    await axios.delete(`${settings.apiUrl}/knowledge/documents/filename/${encodeURIComponent(filename)}`)
 
     ElNotification({
       title: '删除成功',
@@ -473,7 +469,7 @@ const deleteDocument = async (filename: string) => {
       type: 'warning'
     })
 
-    await axios.delete(`http://localhost:8000/api/v1/knowledge/documents/filename/${encodeURIComponent(filename)}`)
+    await axios.delete(`${settings.apiUrl}/knowledge/documents/filename/${encodeURIComponent(filename)}`)
 
     // 从上传历史中移除
     uploadHistory.value = uploadHistory.value.filter(f => f.name !== filename)
@@ -518,7 +514,7 @@ const clearAllHistory = async () => {
 
 const fetchStats = async () => {
   try {
-    const response = await axios.get('http://localhost:8000/api/v1/knowledge/stats')
+    const response = await axios.get(`${settings.apiUrl}/knowledge/stats`)
     stats.docCount = response.data.num_entities || 0  // 文档片段总数
     stats.uniqueFileCount = response.data.num_files || 0  // 唯一文件数量
   } catch (error) {
@@ -530,7 +526,7 @@ const fetchAllDocuments = async (retryCount = 0) => {
   isLoadingDocuments.value = true
 
   try {
-    const response = await axios.get('http://localhost:8000/api/v1/knowledge/documents?limit=100', {
+    const response = await axios.get(`${settings.apiUrl}/knowledge/documents?limit=100`, {
       timeout: 10000  // 10秒超时
     })
 

@@ -25,9 +25,9 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
 
 def get_password_hash(password: str) -> str:
     """加密密码"""
-    # Using 2 rounds for maximum speed (default is 12)
+    # Using 4 rounds for speed (minimum allowed, default is 12)
     # This is less secure but much faster for demo/testing
-    salt = bcrypt.gensalt(rounds=2)
+    salt = bcrypt.gensalt(rounds=4)
     return bcrypt.hashpw(password.encode('utf-8'), salt).decode('utf-8')
 
 

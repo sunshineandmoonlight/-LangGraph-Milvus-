@@ -282,15 +282,14 @@ async def _execute_rag_mode(request: AgentExecuteRequest):
     query_vector = get_embedding(request.query)
     search_results = milvus_service.search(query_vector=query_vector, top_k=5)
 
-    # 2. 检查是否有相关文档（基于相似度阈值）
-    # 如果没有搜索结果或最高分太低，说明没有相关内容
-    SIMILARITY_THRESHOLD = 0.3  # 相似度阈值（降低以提高召回率，可根据实际情况调整）
+    # 2. 相似度阈值
+    SIMILARITY_THRESHOLD = 0.35  # 相似度阈值
 
     if not search_results or len(search_results) == 0:
         return {
             "session_id": request.session_id or "default",
-            "final_answer": "❌ **抱歉，知识库中没有找到相关内容**\n\n**可能的原因：**\n- 知识库为空或未上传相关文档\n- 您的问题与知识库内容差异较大\n\n**建议：**\n1. 尝试使用不同的关键词提问\n2. 上传相关文档到知识库\n3. 使用「多智能体模式」进行网络搜索",
-            "execution_trace": [{"mode": "rag", "documents_retrieved": 0}],
+            "final_answer": "❌ **知识库为空**\n\n**说明：**\n- 知识库中没有任何文档\n- 相似度: 0%\n\n**建议：**\n1. 上传文档到知识库\n2. 使用「多智能体模式」进行网络搜索",
+            "execution_trace": [{"mode": "rag", "documents_retrieved": 0, "max_score": 0}],
             "sources": []
         }
 
@@ -301,11 +300,11 @@ async def _execute_rag_mode(request: AgentExecuteRequest):
     print(f"[RAG] 最高相似度分数: {max_score:.4f}")
     print(f"[RAG] 相似度阈值: {SIMILARITY_THRESHOLD}")
 
+    # 如果相似度低于阈值，直接返回提示信息
     if max_score < SIMILARITY_THRESHOLD:
-        # 相似度太低，说明没有真正相关的内容
         return {
             "session_id": request.session_id or "default",
-            "final_answer": f"❌ **抱歉，知识库中没有找到足够相关的内容**\n\n**技术详情：**\n- 检索了 {len(search_results)} 条文档\n- 最高相似度: {max_score:.2%}（低于阈值 {SIMILARITY_THRESHOLD:.2%}）\n\n**建议：**\n1. 尝试使用与知识库文档更接近的关键词\n2. 上传相关文档到知识库\n3. 使用「多智能体模式」进行网络搜索获取更全面的信息",
+            "final_answer": f"❌ **知识库中没有找到相关内容**\n\n**检索情况：**\n- 检索到 {len(search_results)} 条文档片段\n- 最高相似度：{max_score:.2%}（低于阈值 {SIMILARITY_THRESHOLD:.2%}）\n\n**建议：**\n1. 尝试用不同的关键词重新提问\n2. 上传更多相关文档到知识库\n3. 使用「多智能体模式」进行网络搜索",
             "execution_trace": [{"mode": "rag", "documents_retrieved": len(search_results), "max_score": max_score, "below_threshold": True}],
             "sources": []
         }
@@ -324,11 +323,10 @@ async def _execute_rag_mode(request: AgentExecuteRequest):
     context = "\n\n".join(context_parts)
     source_files_list = list(source_files)
 
-    print(f"[RAG] 使用 {len(search_results)} 条相关文档生成回答")
+    print(f"[RAG] 使用 {len(search_results)} 条文档生成回答")
 
-    # 4. 使用LLM生成回答
+    # 4. 根据相似度决定如何使用LLM
     if settings.USE_SILICONFLOW:
-        # 使用 SiliconFlow 免费模型
         llm = ChatOpenAI(
             model=settings.SILICONFLOW_CHAT_MODEL,
             api_key=settings.SILICONFLOW_API_KEY,
@@ -336,7 +334,6 @@ async def _execute_rag_mode(request: AgentExecuteRequest):
             temperature=settings.SILICONFLOW_TEMPERATURE
         )
     else:
-        # 使用智谱 GLM
         llm = ChatOpenAI(
             model="glm-4-flash",
             api_key=settings.GLM_API_KEY,
@@ -351,7 +348,7 @@ async def _execute_rag_mode(request: AgentExecuteRequest):
     # 构建来源信息文本
     source_info = "、".join(source_files_list)
 
-    # 添加系统提示和当前查询
+    # 构建系统提示（只有相似度足够高才会执行到这里）
     system_prompt = f"""你是一个专业的AI助手。请基于以下知识库内容回答用户问题。
 
 知识库内容:
@@ -375,12 +372,12 @@ async def _execute_rag_mode(request: AgentExecuteRequest):
     final_answer = response.content
 
     # 5. RAG模式不返回sources（不显示右侧面板）
-    sources = []  # 空列表，RAG模式不显示右侧面板
+    sources = []
 
     return {
         "session_id": request.session_id or "default",
         "final_answer": final_answer,
-        "execution_trace": [{"mode": "rag", "documents_retrieved": len(search_results), "source_files": source_files_list}],
+        "execution_trace": [{"mode": "rag", "documents_retrieved": len(search_results), "max_score": max_score, "source_files": source_files_list}],
         "sources": sources
     }
 
