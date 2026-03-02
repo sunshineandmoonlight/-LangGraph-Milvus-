@@ -39,7 +39,18 @@
       "Bash(docker-compose down:*)",
       "Bash(docker-compose build:*)",
       "Bash(cmd.exe /c \"taskkill /F /PID 4612 && taskkill /F /PID 8352\")",
-      "Bash(pip show:*)"
+      "Bash(pip show:*)",
+      "mcp__ssh-manager__ssh_list_servers",
+      "mcp__ssh-manager__ssh_execute",
+      "Bash(git remote:*)",
+      "Bash(du:*)",
+      "mcp__ssh-manager__ssh_upload",
+      "Bash(tar:*)",
+      "Bash(scp:*)"
     ]
-  }
+  },
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "ssh-manager"
+  ]
 }

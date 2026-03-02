@@ -37,9 +37,7 @@
 
 ### 整体架构图
 
-### 整体架构图
-
-![系统架构图](docs/1-系统架构图.drawio.png)
+![系统架构图](docs/architecture.png)
 
 [![查看原图](https://img.shields.io/badge/编辑-draw.io-blue)](https://app.diagrams.net/?U=https://github.com/sunshineandmoonlight/-LangGraph-Milvus-/raw/main/docs/architecture-diagram.drawio)
 
@@ -162,7 +160,7 @@ Writer Agent 生成最终回答
 
 ### RAG 模式数据流
 
-![RAG 模式数据流](docs/1-RAG 模式数据流.drawio.png)
+![RAG 模式数据流](docs/rag-dataflow.png)
 
 **流程说明：**
 1. 用户提问 → Qwen3-Embedding-4B 向量化 (2560维)
@@ -173,7 +171,7 @@ Writer Agent 生成最终回答
 
 ### Agent 模式数据流
 
-![Agent 模式数据流](docs/1-Agent 模式数据流.drawio.png)
+![Agent 模式数据流](docs/agent-dataflow.png)
 
 **流程说明：**
 1. 用户提问 → Supervisor Agent (Qwen2.5-7B-Instruct) 分析
