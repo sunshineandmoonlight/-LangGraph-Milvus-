@@ -424,7 +424,7 @@ open htmlcov/index.html
 
 ## 📝 更新日志
 
-### v1.1.0 (2025-03)
+### v1.1.0 
 - ✅ 修复前端硬编码 localhost URL 问题
 - ✅ 修复注册响应解析错误
 - ✅ RAG 相似度阈值从 0.3 提升到 0.35
@@ -432,7 +432,7 @@ open htmlcov/index.html
 - ✅ 添加数据库初始化脚本 `init_db.py`
 - ✅ 添加 `psycopg2-binary` 和 `email-validator` 依赖
 
-### v1.0.0 (2024-03)
+### v1.0.0 
 - ✅ 多智能体协作系统
 - ✅ Milvus 向量数据库集成
 - ✅ 三种对话模式
