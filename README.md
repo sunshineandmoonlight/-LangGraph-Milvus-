@@ -1,6 +1,6 @@
 # Enterprise Multi-Agent System
 
-> 基于 LangGraph 和 Milvus 的企业级 AI 多智能体协作系统
+> 基于 LangGraph 和 Milvus 的 AI 多智能体协作系统
 
 [![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)](https://www.python.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-Latest-green.svg)](https://fastapi.tiangolo.com/)
@@ -20,7 +20,7 @@
 
 ## 📖 项目简介
 
-这是一个功能完整的企业级 **AI 多智能体协作系统**，采用 **Supervisor-Worker 架构**，实现了智能体协作、知识库检索（RAG）和网络搜索等功能。系统支持三种对话模式，可根据场景灵活切换。
+这是一个 **AI 多智能体协作系统**，采用 **Supervisor-Worker 架构**，实现了智能体协作、知识库检索（RAG）和网络搜索等功能。系统支持三种对话模式，可根据场景灵活切换。
 
 ### 核心亮点
 
